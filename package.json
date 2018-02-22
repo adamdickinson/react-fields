@@ -1,0 +1,52 @@
+{
+  "name": "@renegade/react-fields",
+  "version": "1.0.0",
+  "description": "React Field Management",
+  "main": "src/index.js",
+  "repository": "git@github.com:adamdickinson/renegade-fields.git",
+  "author": "Adam Dickinson <adam@renegadedigital.com.au>",
+  "license": "MIT",
+  "private": true,
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ],
+    "setupFiles": [
+      "./jestdoit.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "test": "jest --coverage"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "react": "^16.2.0",
+    "react-addons-update": "^15.6.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^22.4.0",
+    "jest-enzyme": "^4.2.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.2.0"
+  }
+}
