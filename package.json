@@ -2,7 +2,7 @@
   "name": "@renegade/react-fields",
   "version": "1.0.0",
   "description": "React Field Management",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "repository": "git@github.com:adamdickinson/renegade-fields.git",
   "author": "Adam Dickinson <adam@renegadedigital.com.au>",
   "license": "MIT",
