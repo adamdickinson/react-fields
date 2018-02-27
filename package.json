@@ -20,8 +20,9 @@
     }
   },
   "scripts": {
-    "build": "babel src -d build",
-    "test": "jest --coverage"
+    "build": "babel src --ignore integrations -d build",
+    "test": "jest --coverage",
+    "package": "babel src --ignore integrations -d build && rm -R ./src/ && rm jestdoit.js && sed -i '/\\/build\\//d' .gitignore"
   },
   "babel": {
     "presets": [
