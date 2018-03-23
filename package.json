@@ -1,6 +1,6 @@
 {
   "name": "@renegade/react-fields",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React Field Management",
   "main": "build/index.js",
   "repository": "git@github.com:adamdickinson/renegade-fields.git",
