@@ -3,7 +3,7 @@ import isFinite from "lodash/isFinite"
 
 
 
-export const validate = (name, value, rules) => {
+export const validate = (name, value, rules, validators=defaultValidators) => {
   if( !rules ) return
   for( let [rule, constraint] of Object.entries(rules) ) {
     const result = (rule in validators) && validators[rule](value, constraint) 
@@ -17,7 +17,7 @@ export const isEmpty = value => !isFinite(value) && isEmptyish(value)
 
 
 
-export const validators = {
+export const defaultValidators = {
 
   abn: value => isEmpty(value) || /^(\d *?){11}$/.test(value)
     ? undefined

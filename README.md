@@ -119,6 +119,34 @@ export const InputField = ({ error, ...inputProps }) => (
 
 Stay tuned - we will provide some super handy implementations for fields soon.
 
+
+### Can I add my own validators?
+
+Was hoping you'd ask! Absolutely you can!
+
+The validators available to your FieldContainer are accessible and modifiable through the validators prop. To add your own, simply define it in your constructor and you're good to go:
+
+```js
+import { FieldContainer } from "@renegade/react-fields"
+
+
+
+class ClientContainer extends FieldContainer {
+
+  constructor(props) {
+    super(props)
+
+    this.validators.bananaCount = (value, count) => (value.match(/banana/g) || []).length === count
+      ? undefined
+      : `Incorrect bananae, expected ${count}`
+  }
+
+}
+```
+
+This will only be used within the defined FieldContainer, so if you find yourself re-using these, it might be worth defining common validators in a separate file and importing + appending to the validators attribute as required.
+
+
 API
 ---
 

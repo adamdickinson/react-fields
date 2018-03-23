@@ -2,7 +2,7 @@ import React from "react"
 import get from "lodash/get"
 import set from "lodash/set"
 import update from "react-addons-update"
-import validate from "../helpers/validate"
+import { defaultValidators, validate } from "../helpers/validate"
 import isEmpty from "lodash/isEmpty"
 
 
@@ -13,6 +13,7 @@ export class FieldContainer extends React.Component {
     super(props)
     this.errors = {}
     this.rules = {}
+    this.validators = { ...defaultValidators }
   }
 
 
@@ -43,7 +44,7 @@ export class FieldContainer extends React.Component {
 
 
   validateField(name, value) {
-    const error = validate(name, value, this.rules[name])
+    const error = validate(name, value, this.rules[name], this.validators)
 
     if(error) {
       this.formValid = false
