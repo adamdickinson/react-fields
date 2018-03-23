@@ -39,7 +39,7 @@ class ClientContainer extends FieldContainer {
     this.rules = {
       firstName: { required: true },
       lastName:  { required: true },
-      budget:    { type: number, max: 10000, min: 0 }
+      budget:    { type: "number", max: 10000, min: 0 }
     }
   }
   
