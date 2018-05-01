@@ -185,12 +185,12 @@ As a quick example of how this works from a user's perspective:
 ### Why are we using state?
 
 Bring on the state vs store debate! We enjoy a good argument about whether state
-or a store (ie. redux) should be used to facilitate processes, though the
+or a store (eg. redux) should be used to facilitate processes, though the
 consensus seems to be that if the data is transient - if we're expecting it to
 change constantly - it belongs in state.
 
 The best example is an `<input>` field. It retains its value in its own DOM
-state, because that value only has meaning once something else (ie. a form, or
+state, because that value only has meaning once something else (eg. a form, or
 a script) requests the value. Until then, it's still work in progress.
 
 In much the same way, our FieldContainer has no meaning until the form is
