@@ -12,10 +12,85 @@ describe("FieldContainer component", () => {
 
 
 
+  it("should activateField", () => {
+
+    // Field inactive 
+    const container = mount(<FieldContainer />).instance()
+    container.activateField(sampleFieldName)
+    expect(container.activeFields)
+      .toEqual([sampleFieldName])
+
+    // Field active 
+    container.activateField(sampleFieldName)
+    expect(container.activeFields)
+      .toEqual([sampleFieldName])
+
+  })
+
+
+
+  it("should activateFields", () => {
+
+    // Inactive fields
+    const container = mount(<FieldContainer />).instance()
+    container.rules = { [sampleFieldName]: { required: true } }
+    container.activateFields()
+    expect(container.activeFields)
+      .toEqual([sampleFieldName])
+
+    // Already active (no change)
+    container.activateFields()
+    expect(container.activeFields)
+      .toEqual([sampleFieldName])
+
+  })
+
+
+
   it("should construct", () => {
     const container = new FieldContainer()
     expect(container.rules).toEqual({})
     expect(container.errors).toEqual({})
+  })
+
+
+
+  it("should connectActiveField", () => {
+    const container = mount(<FieldContainer />)
+    container.instance().rules = { [sampleFieldName]: { required: true } }
+    container.instance().errors = { [sampleFieldName]: sampleError }
+    container.setState(sampleState)
+
+    // Field inactive 
+    let connection = container.instance().connectActiveField(sampleFieldName)
+    expect(connection)
+      .toEqual(expect.objectContaining({
+        error:    undefined,
+        value:    sampleValue,
+        required: true
+      }))
+
+    // Field active 
+    container.instance().activeFields = [sampleFieldName]
+    connection = container.instance().connectActiveField(sampleFieldName)
+    expect(connection)
+      .toEqual(expect.objectContaining({
+        error:    sampleError,
+        value:    sampleValue,
+        required: true
+      }))
+
+    // Test onChange
+    container.instance().onFieldChange = jest.fn()
+    connection.onChange({ target: { value: sampleValue } })
+    expect(container.instance().onFieldChange)
+      .toBeCalledWith(sampleFieldName, sampleValue)
+
+    // Test onBlur
+    container.instance().activateField = jest.fn()
+    connection.onBlur()
+    expect(container.instance().activateField)
+      .toBeCalledWith(sampleFieldName)
   })
 
 
@@ -37,6 +112,22 @@ describe("FieldContainer component", () => {
     container.instance().onFieldChange = jest.fn()
     connection.onChange({ target: { value: sampleValue } })
     expect(container.instance().onFieldChange).toBeCalledWith(sampleFieldName, sampleValue)
+  })
+
+
+
+  it("should deactivateFields", () => {
+
+    // With no active fields
+    const container = mount(<FieldContainer />).instance()
+    container.deactivateFields()
+    expect(container.activeFields).toEqual([])
+
+    // With active fields
+    container.activeFields = [sampleFieldName]
+    container.deactivateFields()
+    expect(container.activeFields).toEqual([])
+
   })
 
 
@@ -78,6 +169,26 @@ describe("FieldContainer component", () => {
     container.validateField(sampleFieldName, "")
     expect(container.errors).toEqual({ [sampleFieldName]: "Must enter a value" })
     expect(container.formValid).toBe(false)
+  })
+
+
+
+  it("should validateFields", () => {
+    const container = new FieldContainer()
+    container.rules = {
+      [sampleFieldName]: { required: true },
+      lastName: { required: true }
+    }
+
+    container.state = {
+      lastName: "Holz"
+    }
+
+    container.validateFields()
+    expect(container.formValid).toBe(false)
+    expect(container.errors).toEqual({
+      [sampleFieldName]: "Must enter a value"
+    })
   })
 
 

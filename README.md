@@ -41,6 +41,8 @@ class ClientContainer extends FieldContainer {
       lastName:  { required: true },
       budget:    { type: "number", max: 10000, min: 0 }
     }
+
+    this.validateFields()
   }
   
   
@@ -53,9 +55,15 @@ class ClientContainer extends FieldContainer {
         <InputField {...connectField("firstName")} />
         <InputField {...connectField("lastname")} />
         <InputField {...connectField("budget")} />
-        <Button disabled={!this.formValid} onClick={() => this.onSubmit(this.state)}>Submit</Button>
+        <Button disabled={!this.formValid} onClick={this.submit.bind(this)}>Submit</Button>
       </div>
     )
+  }
+
+
+
+  submit() {
+    this.onSubmit(this.state)
   }
 
 }
@@ -84,6 +92,94 @@ what we've written above for our *budget* field is simply shorthand for:
 A little bit of sugar is good from time to time, plus while DRY principles
 aren't always the silver bullet we may wish they were, they certainly help us
 with consistency, speed and maintainability in our code.
+
+
+### Activated Forms
+
+There are two primary use cases we've focused on to develop this library. The 
+first - shown in 'How does it work?' above - illustrates how one might use it
+to deal with editing of existing data. Validation processes will run and be
+shown as soon as the form is loaded. Errors will be immediately visible and 
+will change as the data changes.
+
+However if we want to fill in a blank form, it's rude of us to show all of the 
+things that are wrong before the user has even begun to fill it out. So we 
+have introduced an additional dynamic: field activation.
+
+Check this out:
+
+```js
+import { FieldContainer } from "@renegade/react-fields"
+
+
+
+class ClientContainer extends FieldContainer {
+
+  constructor(props) {
+    super(props)
+
+    this.rules = {
+      firstName: { required: true },
+      lastName:  { required: true },
+      email:     { type: "email" }
+    }
+
+    this.validateFields()
+  }
+  
+  
+  
+  render() {
+    const connectField = this.connectActiveField // Just for convenience
+
+    return (
+      <div>
+        <InputField {...connectField("firstName")} />
+        <InputField {...connectField("lastname")} />
+        <InputField {...connectField("email")} />
+        <InputField {...connectField("phone")} />
+        <Button onClick={this.formValid ? this.submit.bind(this) : this.activateFields.bind(this)}>
+          Submit
+        </Button>
+      </div>
+    )
+  }
+
+
+
+  submit() {
+    this.onSubmit(this.state)
+  }
+
+}
+```
+
+What we're doing here is allowing a user to change data before attempting to 
+submit it. Upon changing data and moving on (onBlur), each field will be made 
+'active', meaning that it will display any errors found for it.
+
+Upon submission, if the form is not valid all fields will be made active.
+
+In the code, it's almost identical except for two key adjustments:
+
+- Our Button's onClick will run activateFields if the form is not valid, or 
+  submit if it is.
+
+- We're using connectActiveField rather than connectField, to ensure our fields 
+  self-activate and show errors only once activated.
+
+As a quick example of how this works from a user's perspective:
+
+1. User opens blank form (form has already validated, but no errors show)
+2. User enters email address in field, but spells it incorrectly 
+3. User moves onto phone field, only to see there is an error with the email 
+   address (email address field self-activates onBlur)
+4. User corrects email address and submits form
+5. First name and last name show required error messages (form invalid, so 
+   onClick activates all fields instead, revealing firstName and lastName as 
+   required fields)
+6. User adds first and last name into field, then submits again
+7. Form shows success message (form now valid, so onClick runs submit)
 
 
 ### Why are we using state?
