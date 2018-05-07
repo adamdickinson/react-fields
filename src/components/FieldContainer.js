@@ -2,9 +2,8 @@ import React from "react"
 import get from "lodash/get"
 import isEmpty from "lodash/isEmpty"
 import isEqual from "lodash/isEqual"
-import set from "lodash/set"
-import update from "react-addons-update"
 import { defaultValidators, validate } from "../helpers/validate"
+import { set } from "object-path-immutable" 
 
 
 
@@ -80,8 +79,10 @@ export class FieldContainer extends React.Component {
 
 
   updateField(name, value) {
-    const branch = set({}, name, value)
-    this.setState( update(this.state, { $set: set({}, name, value) }) )
+    const state = set(this.state, name, value)
+    const rootPath = name.split(".")[0] // Grab the top-level identifier (eg. 'client')
+    const rootState = { [rootPath]: state[rootPath] } // Grab the portion of the state belonging to our root path (eg. { client: {...} })
+    this.setState(rootState)
   }
 
 

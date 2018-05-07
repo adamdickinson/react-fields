@@ -7,6 +7,9 @@ describe("FieldContainer component", () => {
   
   const sampleError = "Invalid value"
   const sampleFieldName = "client.firstName"
+  const sampleOtherFieldName = "client.lastName"
+  const sampleOtherState = { client: { firstName: "Adam", lastName: "Holz" } }
+  const sampleOtherValue = "Holz"
   const sampleState = { client: { firstName: "Adam" } }
   const sampleValue = "Adam"
 
@@ -149,8 +152,14 @@ describe("FieldContainer component", () => {
     container.state = {}
     container.setState = jest.fn()
 
+    // Change first field
     container.updateField(sampleFieldName, sampleValue)
     expect(container.setState).toBeCalledWith(sampleState)
+
+    // Change second field
+    container.state = sampleState
+    container.updateField(sampleOtherFieldName, sampleOtherValue)
+    expect(container.setState).toBeCalledWith(sampleOtherState)
   })
 
 

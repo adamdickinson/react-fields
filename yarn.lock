@@ -2854,6 +2854,10 @@ object-keys@^1.0.11, object-keys@^1.0.8:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.0.11.tgz#c54601778ad560f1142ce0e01bcca8b56d13426d"
 
+object-path-immutable@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/object-path-immutable/-/object-path-immutable-1.0.1.tgz#3c424052be3c54ec82def03f1b11b0c6e085c7ff"
+
 object.assign@^4.0.4, object.assign@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.0.tgz#968bf1100d7956bb3ca086f006f846b3bc4008da"
