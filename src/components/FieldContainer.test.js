@@ -160,6 +160,22 @@ describe("FieldContainer component", () => {
     container.state = sampleState
     container.updateField(sampleOtherFieldName, sampleOtherValue)
     expect(container.setState).toBeCalledWith(sampleOtherState)
+
+    // Delete field from empty state
+    container.state = {} 
+    container.updateField(sampleFieldName, undefined)
+    expect(container.setState).toBeCalledWith({ client: {} })
+
+    // Delete field from non-empty state
+    container.state = sampleState
+    container.updateField(sampleFieldName, undefined)
+    expect(container.setState).toBeCalledWith({ client: {} })
+
+    // "Delete" top-level field
+    container.setState.mockClear()
+    container.state = {} 
+    container.updateField("firstName", undefined)
+    expect(container.setState).not.toHaveBeenCalled()
   })
 
 

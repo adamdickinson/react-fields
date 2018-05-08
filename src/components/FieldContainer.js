@@ -3,7 +3,7 @@ import get from "lodash/get"
 import isEmpty from "lodash/isEmpty"
 import isEqual from "lodash/isEqual"
 import { defaultValidators, validate } from "../helpers/validate"
-import { set } from "object-path-immutable" 
+import { del, set } from "object-path-immutable" 
 
 
 
@@ -79,10 +79,16 @@ export class FieldContainer extends React.Component {
 
 
   updateField(name, value) {
-    const state = set(this.state, name, value)
+
+    // Determine the action to run (delete if setting to undefined, or set otherwise)
+    const state = value !== undefined ? set(this.state, name, value) : del(this.state, name)
     const rootPath = name.split(".")[0] // Grab the top-level identifier (eg. 'client')
-    const rootState = { [rootPath]: state[rootPath] } // Grab the portion of the state belonging to our root path (eg. { client: {...} })
+    if( !(rootPath in state) ) return
+
+    // Grab the portion of the state belonging to our root path (eg. { client: {...} })
+    const rootState = { [rootPath]: state[rootPath] } 
     this.setState(rootState)
+      
   }
 
 
