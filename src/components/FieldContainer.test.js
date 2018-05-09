@@ -205,14 +205,19 @@ describe("FieldContainer component", () => {
       lastName: { required: true }
     }
 
-    container.state = {
-      lastName: "Holz"
-    }
-
+    // Test with component state
+    container.state = { lastName: "Holz" }
     container.validateFields()
     expect(container.formValid).toBe(false)
     expect(container.errors).toEqual({
       [sampleFieldName]: "Must enter a value"
+    })
+
+    // Test with a given state
+    container.validateFields({ [sampleFieldName]: "Adam" })
+    expect(container.formValid).toBe(false)
+    expect(container.errors).toEqual({
+      lastName: "Must enter a value"
     })
   })
 

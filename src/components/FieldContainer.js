@@ -108,9 +108,9 @@ export class FieldContainer extends React.Component {
 
 
 
-  validateFields() {
+  validateFields(state=this.state) {
     const fields = Object.keys(this.rules)
-    fields.forEach(field => this.validateField(field, get(this.state, field)))
+    fields.forEach(field => this.validateField(field, get(state, field)))
   }
 
 
