@@ -5,6 +5,8 @@ import * as helpers from "./validate"
 describe("validate helpers", () => {
   
   const sampleName = "client.age"
+  const sampleTypeName = "client.phone"
+  const sampleTypeValue = "123"
   const sampleValue = "28"
 
 
@@ -22,6 +24,10 @@ describe("validate helpers", () => {
     // Fails a rule 
     expect(helpers.validate(sampleName, sampleValue, { required: true, max: 25}))
       .toBe("Must be 25 or less")
+
+    // Validates a 'type' rule
+    expect(helpers.validate(sampleTypeName, sampleTypeValue, { type: "tel" }))
+      .toBe("Must be a valid phone number")
 
     // Runs a custom rule
     expect(helpers.validate(

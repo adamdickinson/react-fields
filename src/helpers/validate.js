@@ -6,6 +6,7 @@ import isFinite from "lodash/isFinite"
 export const validate = (name, value, rules, validators=defaultValidators) => {
   if( !rules ) return
   for( let [rule, constraint] of Object.entries(rules) ) {
+    if( rule == "type" ) rule = constraint 
     const result = (rule in validators) && validators[rule](value, constraint) 
     if(result) return result
   }
