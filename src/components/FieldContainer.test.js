@@ -33,18 +33,19 @@ describe("FieldContainer component", () => {
 
 
   it("should activateFields", () => {
+    const container = shallow(<FieldContainer />).instance()
+    const sampleContext = { activeFields: [], forceUpdate: jest.fn() }
+    const activateFields = container.activateFields.bind(sampleContext)
 
     // Inactive fields
-    const container = mount(<FieldContainer />).instance()
-    container.rules = { [sampleFieldName]: { required: true } }
-    container.activateFields()
-    expect(container.activeFields)
-      .toEqual([sampleFieldName])
+    sampleContext.rules = { [sampleFieldName]: { required: true } }
+    activateFields()
+    expect(sampleContext.activeFields).toEqual([sampleFieldName])
+    expect(sampleContext.forceUpdate).toBeCalled()
 
     // Already active (no change)
-    container.activateFields()
-    expect(container.activeFields)
-      .toEqual([sampleFieldName])
+    activateFields()
+    expect(sampleContext.activeFields).toEqual([sampleFieldName])
 
   })
 

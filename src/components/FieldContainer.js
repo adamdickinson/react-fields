@@ -29,11 +29,11 @@ export class FieldContainer extends React.Component {
 
 
 
-  activateFields() {
+  activateFields(triggerUpdate=true) {
     const fields = Object.keys(this.rules)
     if( !isEqual(fields, this.activeFields) ) {
       this.activeFields = fields
-      this.forceUpdate()
+      triggerUpdate && this.forceUpdate()
     }
   }
 
